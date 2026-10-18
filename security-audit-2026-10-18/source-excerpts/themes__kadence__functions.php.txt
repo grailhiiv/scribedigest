@@ -1,0 +1,32 @@
+1: <?php																																			
+2: /**
+3:  * Kadence functions and definitions
+4:  *
+5:  * This file must be parseable by PHP 5.2.
+6:  *
+7:  * @link https://developer.wordpress.org/themes/basics/theme-functions/
+8:  *
+9:  * @package kadence
+10:  */
+11: 
+12: define( 'KADENCE_VERSION', '1.5.2' );
+13: define( 'KADENCE_MINIMUM_WP_VERSION', '6.0' );
+14: define( 'KADENCE_MINIMUM_PHP_VERSION', '7.4' );
+15: 
+16: // Bail if requirements are not met.
+17: if ( version_compare( $GLOBALS['wp_version'], KADENCE_MINIMUM_WP_VERSION, '<' ) || version_compare( phpversion(), KADENCE_MINIMUM_PHP_VERSION, '<' ) ) {
+18: 	require get_template_directory() . '/inc/back-compat.php';
+19: 	return;
+20: }
+21: // Include WordPress shims.
+22: require get_template_directory() . '/inc/wordpress-shims.php';
+23: 
+24: // Load the `kadence()` entry point function.
+25: require get_template_directory() . '/inc/class-theme.php';
+26: 
+27: // Load the `kadence()` entry point function.
+28: require get_template_directory() . '/inc/functions.php';
+29: 
+30: // Initialize the theme.
+31: call_user_func( 'Kadence\kadence' );
+32: 

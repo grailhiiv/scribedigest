@@ -1,0 +1,37 @@
+{
+  "source": "C:\\Users\\Grail\\Downloads\\backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-db.gz",
+  "output": "C:\\Users\\Grail\\Desktop\\Scribe Digest\\security-audit-2026-10-18\\cleaned-backup\\backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-db.gz",
+  "originalUnchanged": true,
+  "removedApplicationPassword": {
+    "user": "scribedigest",
+    "userID": 1,
+    "name": "Site REST general",
+    "uuid": "a48a7121-b8e4-4fcc-a674-e5869785df80",
+    "umetaID": 153
+  },
+  "suspiciousAccountNames": [
+    "manager_867e63f47bd869fa",
+    "support_86e2cdedc907fd21",
+    "manager_a4ce9cbfbedef583",
+    "support_ab8c2a9dfab9d1a0",
+    "manager_87b252883981e390"
+  ],
+  "suspiciousAccountRowsFound": 0,
+  "suspiciousAccountRowsRemoved": 0,
+  "otherDataUnchanged": true,
+  "securityLogsPreserved": true,
+  "activatorUnchanged": true,
+  "sourceSHA256": "9b97662c7ccec93ac965fed304040fed73d9028a38453cae0db1efb0a3547e66",
+  "cleanedSHA256": "cd26568fc238571c45734ac16a2f32bb9064d957a09458d1ee889880b5ada6e8",
+  "validation": {
+    "gzipRoundTrip": true,
+    "allTableRowsCompared": true,
+    "insertStatements": 91,
+    "remainingTargetCredentialRows": 0,
+    "remainingSuspiciousAccounts": 0,
+    "totalRows": 49692,
+    "parsedInsertGroups": 62,
+    "exactSingleRowDeletionVerified": true
+  },
+  "liveDatabaseModified": false
+}

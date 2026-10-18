@@ -1,0 +1,28 @@
+{
+  "verdict": "No confirmed administrator-recreation payload identified; live incident unresolved",
+  "inputDatabase": {
+    "sha256": "cd26568fc238571c45734ac16a2f32bb9064d957a09458d1ee889880b5ada6e8",
+    "matchesEarlierCleanedOutput": true,
+    "users": [
+      {
+        "id": "1",
+        "login": "scribedigest"
+      }
+    ],
+    "applicationPasswordRows": 0
+  },
+  "additionalChecks": {
+    "decodedOptionCandidates": 50,
+    "decodedOptionMarkerHits": [],
+    "centralPairingOptionValueEmpty": true,
+    "rootFilesAbsent": [
+      ".user.ini",
+      "wordfence-waf.php",
+      "wp-config.php",
+      "wp-admin/",
+      "wp-includes/"
+    ]
+  },
+  "originalArchivesModifiedThisPass": false,
+  "liveSiteAccessed": false
+}

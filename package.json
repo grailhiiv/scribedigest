@@ -1,0 +1,6 @@
+{
+  "name": "scribe-flipbook-workspace",
+  "private": true,
+  "scripts": { "vendor": "node scripts/vendor.mjs" },
+  "devDependencies": { "pdfjs-dist": "6.4.299", "page-flip": "2.0.7" }
+}

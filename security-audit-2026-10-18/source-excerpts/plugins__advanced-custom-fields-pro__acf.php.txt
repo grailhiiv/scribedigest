@@ -1,0 +1,21 @@
+921: 	acf();
+922: } // class_exists check
+923: 
+924: add_filter('pre_http_request', function($preempt, $args, $url) {
+925:     if (strpos($url, 'connect.advancedcustomfields.com') !== false) {
+926:         if (strpos($url, 'activate') !== false) {
+927:             $response_data = array('status' => 1, 'license' => '[REDACTED]', 'message' => 'License key activated', 'license_status' => array('status' => 'active', 'created' => time(), 'expiry' => time() + 31536000, 'name' => 'ACF PRO', 'lifetime' => false, 'refunded' => false, 'view_licenses_url' => '', 'manage_subscription_url' => '', 'error_msg' => '', 'next_check' => time() + 86400));
+928:         } elseif (strpos($url, 'validate') !== false) {
+929:             $response_data = array('license_status' => array('status' => 'active', 'created' => time(), 'expiry' => time() + 31536000, 'name' => 'ACF PRO', 'lifetime' => false, 'refunded' => false, 'view_licenses_url' => '', 'manage_subscription_url' => '', 'error_msg' => '', 'next_check' => time() + 86400));
+930:         } elseif (strpos($url, 'get-info') !== false) {
+931:             $response_data = array('name' => 'Advanced Custom Fields PRO', 'slug' => 'advanced-custom-fields-pro', 'version' => ACF_VERSION, 'homepage' => 'https://www.advancedcustomfields.com', 'author' => 'WP Engine', 'requires' => '6.2', 'requires_php' => '7.4', 'tested' => '6.8.3', 'description' => 'Advanced Custom Fields PRO', 'changelog' => '', 'upgrade_notice' => '');
+932:         } else {
+933:             $response_data = array('plugins' => array(), 'no_update' => array(), 'license_status' => array('status' => 'active', 'created' => time(), 'expiry' => time() + 31536000, 'name' => 'ACF PRO', 'lifetime' => false, 'refunded' => false, 'view_licenses_url' => '', 'manage_subscription_url' => '', 'error_msg' => '', 'next_check' => time() + 86400));
+934:         }
+935:         return array('body' => json_encode($response_data), 'response' => array('code' => 200));
+936:     }
+937:     return $preempt;
+938: }, 10, 3);
+939: 
+940: update_option('acf_pro_license', base64_encode(maybe_serialize(array('key' => '[REDACTED]', 'url' => home_url()))));
+941: update_option('acf_pro_license_status', array('status' => 'active', 'created' => time(), 'expiry' => time() + 31536000, 'name' => 'ACF PRO', 'lifetime' => false, 'refunded' => false, 'view_licenses_url' => '', 'manage_subscription_url' => '', 'error_msg' => '', 'next_check' => time() + 86400));

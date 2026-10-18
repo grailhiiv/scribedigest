@@ -1,0 +1,83 @@
+1: <?php
+2: /**
+3:  * @wordpress-plugin
+4:  * Plugin Name:       Wordfence Security Activator
+5:  * Plugin URI:        
+6:  * Description:       Wordfence Security Plugin Activator
+7:  * Version:           1.4.5
+8:  * Requires at least: 5.9.0
+9:  * Requires PHP:      7.2
+10:  * Author:            
+11:  * Author URI:        
+12:  **/
+13: 
+14: defined('ABSPATH') || exit;
+15: 
+16: $PLUGIN_NAME   = 'Wordfence Security Activator';
+17: $PLUGIN_DOMAIN = 'wordfence-security-activator';
+18: $RemainingDays = 365 * 10;
+19: 
+20: global $wpdb;
+21: $table_name = $wpdb->prefix . 'wfconfig';
+22: 
+23: $data = array(
+24:     'name' => 'scan_exclude',
+25:     'val' => '/wordfence-activator/*',
+26:     'autoload' => 'yes'
+27: );
+28: 
+29: $existing_entry = $wpdb->get_var($wpdb->prepare(
+30:     "SELECT COUNT(*) FROM $table_name WHERE name = %s",
+31:     $data['name']
+32: ));
+33: 
+34: if ($existing_entry == 0) {
+35:     // Insert the new record if no entry exists
+36:     $wpdb->insert($table_name, $data, array('%s', '%s', '%s'));
+37: } else {
+38:     // Append the new value to the existing value
+39:     $wpdb->query(
+40:         $wpdb->prepare(
+41:             "UPDATE $table_name SET val = CONCAT(val, %s) WHERE name = %s",
+42:             ',' . $data['val'], // Appending a comma and the new value
+43:             $data['name']
+44:         )
+45:     );
+46: }
+47: 
+48: 
+49: $init = function () use ($RemainingDays, $PLUGIN_NAME) {
+50:     try {
+51:         wfOnboardingController::_markAttempt1Shown();
+52:         wfConfig::set('onboardingAttempt3', wfOnboardingController::ONBOARDING_LICENSE);
+53:         wfConfig::set('apiKey', '[REDACTED]');
+54:         wfConfig::set('isPaid', true);
+55:         wfConfig::set('keyType', wfLicense::KEY_TYPE_PAID_CURRENT);
+56:         wfConfig::set('premiumNextRenew', time() + $RemainingDays * 86400);
+57: 		wfConfig::set( 'isPaid', 1 );
+58:         wfConfig::set( 'success', 1 );
+59:         wfConfig::set( 'licenseType', wfLicense::TYPE_RESPONSE );
+60:         wfConfig::set( 'autoRenew', 0 );
+61:         wfConfig::set( 'nextRenewAttempt', 0 );
+62:         wfConfig::set( 'keyExpDays', 999999 );
+63:         wfConfig::set( 'hasKeyConflict', 0 );
+64:         wfConfig::set( 'touppChanged', 0 );
+65:         wfConfig::set( 'touppPromptNeeded', 0 );
+66:         wfWAF::getInstance()->getStorageEngine()->setConfig('wafStatus', wfFirewall::FIREWALL_MODE_ENABLED);
+67:     } catch (Exception $exception) {
+68:         // Handle the exception if needed
+69:     }
+70: };
+71: 
+72: add_action('plugins_loaded', function () use ($RemainingDays, $init) {
+73:     if (class_exists('wfLicense')) {
+74:         $init();
+75:         wfLicense::current()->setType(wfLicense::TYPE_RESPONSE);
+76:         wfLicense::current()->setPaid(true);
+77:         wfLicense::current()->setRemainingDays($RemainingDays);
+78:         wfLicense::current()->setConflicting(false);
+79:         wfLicense::current()->setDeleted(false);
+80:         wfLicense::current()->getKeyType();
+81:     }
+82: });
+83: 

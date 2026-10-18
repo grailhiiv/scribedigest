@@ -1,0 +1,14 @@
+{
+  "url": "https://downloads.wordpress.org/theme/kadence.1.5.2.zip",
+  "matched": 551,
+  "changed": [
+    {
+      "name": "themes/kadence/functions.php",
+      "localSize": 990,
+      "officialSize": 955,
+      "whitespaceOnly": true
+    }
+  ],
+  "extra": [],
+  "missing": []
+}

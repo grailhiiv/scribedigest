@@ -1,0 +1,9 @@
+/node_modules/
+/qa/
+/*.zip
+
+# Private production backups and captured administration sessions.
+/security-audit-2026-10-18/cleaned-backup/
+/security-audit-2026-10-18/live-access-log-visible.txt
+/security-audit-2026-10-18/live-final-user-check.txt
+/security-audit-2026-10-18/live-*.jpg

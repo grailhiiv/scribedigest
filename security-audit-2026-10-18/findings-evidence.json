@@ -1,0 +1,269 @@
+{
+  "scope": {
+    "archiveEntries": 15901,
+    "textFilesScanned": 11166,
+    "databaseTables": 54,
+    "databaseRows": 49693
+  },
+  "archives": [
+    {
+      "name": "backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-others.zip",
+      "sha256": "1f78e4852e59f27b10e684b303353c3bc06bfefd9729dcd8071230163e6719ec",
+      "entries": 12
+    },
+    {
+      "name": "backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-plugins.zip",
+      "sha256": "6eeb0538206bafa8653ac8550bceea7a7932403f6ec2516168af0e6b5ef94160",
+      "entries": 14168
+    },
+    {
+      "name": "backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-themes.zip",
+      "sha256": "5101a5e21c180003f6939dd92f43d97085a228b5fdb3b47d659f764e7b6e7b6e",
+      "entries": 937
+    },
+    {
+      "name": "backup_2026-10-18-0409_Scribe_Digest_dc171e59984a-uploads.zip",
+      "sha256": "78a034fd5d992dc7907db1e9952dc816b806d4587f2caf257bc65c71ead5cda9",
+      "entries": 784
+    }
+  ],
+  "databaseGzipSHA256": "9b97662c7ccec93ac965fed304040fed73d9028a38453cae0db1efb0a3547e66",
+  "suspiciousIdentities": [
+    {
+      "username": "manager_867e63f47bd869fa",
+      "successfulLogins": 32,
+      "userIDs": [
+        "23",
+        "27",
+        "31",
+        "37",
+        "41"
+      ],
+      "firstUTC": "2026-10-17T06:15:46.005Z",
+      "lastUTC": "2026-10-18T03:36:47.949Z"
+    },
+    {
+      "username": "support_86e2cdedc907fd21",
+      "successfulLogins": 32,
+      "userIDs": [
+        "24",
+        "28",
+        "36",
+        "38",
+        "42"
+      ],
+      "firstUTC": "2026-10-17T06:15:47.799Z",
+      "lastUTC": "2026-10-18T03:36:49.335Z"
+    },
+    {
+      "username": "manager_a4ce9cbfbedef583",
+      "successfulLogins": 12,
+      "userIDs": [
+        "25",
+        "29",
+        "33",
+        "39"
+      ],
+      "firstUTC": "2026-10-17T08:03:10.452Z",
+      "lastUTC": "2026-10-18T03:30:19.762Z"
+    },
+    {
+      "username": "support_ab8c2a9dfab9d1a0",
+      "successfulLogins": 12,
+      "userIDs": [
+        "26",
+        "30",
+        "34",
+        "40"
+      ],
+      "firstUTC": "2026-10-17T08:03:11.608Z",
+      "lastUTC": "2026-10-18T03:30:21.256Z"
+    },
+    {
+      "username": "manager_87b252883981e390",
+      "successfulLogins": 1,
+      "userIDs": [
+        "35"
+      ],
+      "firstUTC": "2026-10-17T08:19:11.296Z",
+      "lastUTC": "2026-10-18T02:50:58.839Z"
+    }
+  ],
+  "wordfenceFindings": [
+    {
+      "id": "38",
+      "time": "1792292484",
+      "lastUpdated": "1792292484",
+      "status": "new",
+      "type": "knownfile",
+      "severity": "50",
+      "ignoreP": "dfa789df0dae00522e7a40a2937c637d",
+      "ignoreC": "d9d1196eba8372dfbea602c8e2d65694",
+      "shortMsg": "Modified theme file: wp-content/themes/kadence/functions.php",
+      "longMsg": "This file belongs to theme \"Kadence\" version \"1.5.2\" and has been modified from the original distribution. It is common for site owners to modify their theme files, so if you have modified this file yourself you can safely ignore this warning. <a href=\"https://www.wordfence.com/help/?query=scan-result-modified-theme\" target=\"_blank\" rel=\"noopener noreferrer\">Learn More<span class=\"screen-reader-text\"> (opens in new tab)</span></a>",
+      "data": "a:10:{s:4:\"file\";s:39:\"wp-content/themes/kadence/functions.php\";s:8:\"realFile\";s:82:\"/home/scribedigest/htdocs/scribedigest.com/wp-content/themes/kadence/functions.php\";s:5:\"cType\";s:5:\"theme\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;s:5:\"cName\";s:7:\"Kadence\";s:8:\"cVersion\";s:5:\"1.5.2\";s:4:\"cKey\";s:7:\"kadence\";s:10:\"haveIssues\";s:6:\"themes\";}"
+    },
+    {
+      "id": "39",
+      "time": "1792292484",
+      "lastUpdated": "1792292484",
+      "status": "new",
+      "type": "configReadable",
+      "severity": "100",
+      "ignoreP": "0f27a972fe626bbed16e21293bb29b8a",
+      "ignoreC": "0f27a972fe626bbed16e21293bb29b8a",
+      "shortMsg": "Publicly accessible config, backup, or log file found: .user.ini",
+      "longMsg": "<a href=\"https://scribedigest.com/.user.ini\" target=\"_blank\" rel=\"noopener noreferrer\">https://scribedigest.com/.user.ini</a> is publicly accessible and may expose source code or sensitive information about your site. Files such as this one are commonly checked for by scanners and should be made inaccessible. Alternately, some can be removed if you are certain your site does not need them. Sites using the nginx web server may need manual configuration changes to protect such files. <a href=\"https://www.wordfence.com/help/?query=scan-result-public-config\" target=\"_blank\" rel=\"noopener noreferrer\">Learn more<span class=\"screen-reader-text\"> (opens in new tab)</span></a>",
+      "data": "a:4:{s:3:\"url\";s:34:\"https://scribedigest.com/.user.ini\";s:4:\"file\";s:9:\".user.ini\";s:8:\"realFile\";s:52:\"/home/scribedigest/htdocs/scribedigest.com/.user.ini\";s:9:\"canDelete\";b:1;}"
+    },
+    {
+      "id": "40",
+      "time": "1792293207",
+      "lastUpdated": "1792293207",
+      "status": "new",
+      "type": "wfPluginVulnerable",
+      "severity": "100",
+      "ignoreP": "e83644d3431c8e552bf8e4613e6591e7",
+      "ignoreC": "e83644d3431c8e552bf8e4613e6591e7",
+      "shortMsg": "The Plugin \"Kadence Blocks Pro\" has a security vulnerability.",
+      "longMsg": "To protect your site from this vulnerability, the safest option is to deactivate and completely remove \"Kadence Blocks Pro\" until a patched version is available. <a href=\"https://www.wordfence.com/help/?query=scan-result-plugin-vulnerable\" target=\"_blank\" rel=\"noopener noreferrer\">Get more information.<span class=\"screen-reader-text\"> (opens in new tab)</span></a>",
+      "data": "a:25:{s:4:\"Name\";s:18:\"Kadence Blocks Pro\";s:9:\"PluginURI\";s:0:\"\";s:7:\"Version\";s:5:\"3.6.7\";s:11:\"Description\";s:82:\"Advanced Page Building Blocks for Gutenberg with bundled Kadence Theme Pro addons.\";s:6:\"Author\";s:10:\"Kadence WP\";s:9:\"AuthorURI\";s:0:\"\";s:10:\"TextDomain\";s:14:\"kadence-blocks\";s:10:\"DomainPath\";s:0:\"\";s:7:\"Network\";b:0;s:10:\"RequiresWP\";s:0:\"\";s:11:\"RequiresPHP\";s:3:\"7.4\";s:9:\"UpdateURI\";s:5:\"false\";s:15:\"RequiresPlugins\";s:0:\"\";s:5:\"Title\";s:18:\"Kadence Blocks Pro\";s:10:\"AuthorName\";s:10:\"Kadence WP\";s:10:\"pluginFile\";s:95:\"/home/scribedigest/htdocs/scribedigest.com/wp-content/plugins/kadence-blocks/kadence-blocks.php\";s:4:\"slug\";s:14:\"kadence-blocks\";s:10:\"vulnerable\";b:1;s:17:\"vulnerabilityLink\";s:108:\"https://www.wordfence.com/threat-intel/vulnerabilities/id/2572dc76-b2fc-45de-b44e-896bf8456fdc?source=plugin\";s:9:\"cvssScore\";s:3:\"7.2\";s:13:\"severityColor\";s:7:\"#df3d03\";s:13:\"severityLabel\";s:4:\"High\";s:13:\"severityClass\";s:30:\"wf-vulnerability-severity-high\";s:10:\"cvssVector\";s:44:\"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N\";s:16:\"updatedAvailable\";b:0;}"
+    },
+    {
+      "id": "41",
+      "time": "1792293208",
+      "lastUpdated": "1792293208",
+      "status": "new",
+      "type": "suspiciousAdminUsers",
+      "severity": "75",
+      "ignoreP": "27f364708043f76abae4f4b180fb7d16",
+      "ignoreC": "27f364708043f76abae4f4b180fb7d16",
+      "shortMsg": "An admin user with the username manager_867e63f47bd869fa was created outside of WordPress.",
+      "longMsg": "An admin user with the username manager_867e63f47bd869fa was created outside of WordPress. It's possible a plugin could have created the account, but if you do not recognize the user, we suggest you remove it.",
+      "data": "a:1:{s:6:\"userID\";i:37;}"
+    },
+    {
+      "id": "42",
+      "time": "1792293208",
+      "lastUpdated": "1792293208",
+      "status": "new",
+      "type": "suspiciousAdminUsers",
+      "severity": "75",
+      "ignoreP": "20c48878a2b8eb3752d7b1fbcf1ce942",
+      "ignoreC": "20c48878a2b8eb3752d7b1fbcf1ce942",
+      "shortMsg": "An admin user with the username support_86e2cdedc907fd21 was created outside of WordPress.",
+      "longMsg": "An admin user with the username support_86e2cdedc907fd21 was created outside of WordPress. It's possible a plugin could have created the account, but if you do not recognize the user, we suggest you remove it.",
+      "data": "a:1:{s:6:\"userID\";i:38;}"
+    }
+  ],
+  "unauthorizedApplicationPassword": {
+    "userID": 1,
+    "metaID": 153,
+    "name": "Site REST general",
+    "uuid": "a48a7121-b8e4-4fcc-a674-e5869785df80",
+    "createdUTC": "2026-10-18T03:36:40.000Z",
+    "createdTaiwan": "2026-10-18 11:36:40 +08:00",
+    "lastUsed": null,
+    "lastIP": null,
+    "ownerConfirmedUnauthorized": true
+  },
+  "sessions": {
+    "userID": 1,
+    "stored": 82,
+    "unexpiredAtBackup": 82
+  },
+  "wordfenceExclusion": {
+    "instances": 2042,
+    "pattern": "/wordfence-activator/*"
+  },
+  "pluginChecksums": [
+    {
+      "slug": "tiny-compress-images",
+      "version": "3.8.1",
+      "url": "https://downloads.wordpress.org/plugin-checksums/tiny-compress-images/3.8.1.json",
+      "matched": 83,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "add-to-any",
+      "version": "1.8.18",
+      "url": "https://downloads.wordpress.org/plugin-checksums/add-to-any/1.8.18.json",
+      "matched": 138,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "wordfence",
+      "version": "9.0.2",
+      "url": "https://downloads.wordpress.org/plugin-checksums/wordfence/9.0.2.json",
+      "matched": 631,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "file-upload-types",
+      "version": "1.5.0",
+      "url": "https://downloads.wordpress.org/plugin-checksums/file-upload-types/1.5.0.json",
+      "matched": 38,
+      "changed": [
+        "readme.txt"
+      ],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "seo-by-rank-math",
+      "version": "1.0.280",
+      "url": "https://downloads.wordpress.org/plugin-checksums/seo-by-rank-math/1.0.280.json",
+      "matched": 1337,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "wpforms-lite",
+      "version": "2.0.2.2",
+      "url": "https://downloads.wordpress.org/plugin-checksums/wpforms-lite/2.0.2.2.json",
+      "matched": 4858,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "disable-media-sizes",
+      "version": "2.6",
+      "url": "https://downloads.wordpress.org/plugin-checksums/disable-media-sizes/2.6.json",
+      "matched": 12,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    },
+    {
+      "slug": "clp-varnish-cache",
+      "version": "1.1.1",
+      "url": "https://downloads.wordpress.org/plugin-checksums/clp-varnish-cache/1.1.1.json",
+      "matched": 15,
+      "changed": [],
+      "extra": [],
+      "missing": []
+    }
+  ],
+  "themeComparison": {
+    "url": "https://downloads.wordpress.org/theme/kadence.1.5.2.zip",
+    "matched": 551,
+    "changed": [
+      {
+        "name": "themes/kadence/functions.php",
+        "localSize": 990,
+        "officialSize": 955,
+        "whitespaceOnly": true
+      }
+    ],
+    "extra": [],
+    "missing": []
+  }
+}
