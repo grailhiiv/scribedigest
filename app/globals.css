@@ -1,0 +1,15 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/playfair-display";
+@import "tailwindcss";
+@import "tw-animate-css";
+@theme inline { --color-background:#fff; --color-foreground:#020617; --color-primary:#0f172a; --color-primary-foreground:#fff; --color-secondary:#f1f5f9; --color-secondary-foreground:#0f172a; --color-accent:#f1f5f9; --color-accent-foreground:#0f172a; --color-muted:#f1f5f9; --color-muted-foreground:#64748b; --color-border:#e2e8f0; --color-input:#e2e8f0; --color-ring:#94a3b8; --color-destructive:#b91c1c; }
+body{margin:0;background:#fff;color:#020617;font-family:Arial,sans-serif} button{cursor:pointer}
+.admin-font { font-family: 'Inter Variable', sans-serif; }
+
+/* Shared typography and controls for the private workspace. */
+.admin-font { font-size: 1rem; line-height: 1.5; }
+.admin-font [data-slot="input"] { min-height: 2.75rem; font-size: 1rem; }
+.admin-font [data-slot="button"] { font-size: 0.9375rem; }
+.admin-font [data-slot="button"][data-size="default"] { min-height: 2.75rem; }
+
+.workspace-title { font-family: "Playfair Display Variable", serif; font-size: 2rem; line-height: 1.2; }
