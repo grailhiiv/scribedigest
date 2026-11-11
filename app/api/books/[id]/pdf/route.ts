@@ -18,7 +18,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       const object = await getPdf(book.storageId || book.id, range, pdfFilename(book));
       if (!object.Body) throw new Error('Missing object body');
       const headers = new Headers({ 'Content-Type': 'application/pdf', 'Content-Disposition': disposition, 'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'no-store', 'Accept-Ranges': 'bytes' });
-      if (object.ContentLength !== undefined) headers.set('Content-Length', String(object.ContentLength));
+      if (object.ContentLength !== undefined) {
+        headers.set('Content-Length', String(object.ContentLength));
+        headers.set('X-PDF-Content-Length', String(object.ContentLength));
+      }
       if (object.ContentRange) headers.set('Content-Range', object.ContentRange);
       return new Response(object.Body.transformToWebStream() as ReadableStream, { status: object.ContentRange ? 206 : 200, headers });
     } catch (error) {
@@ -41,6 +44,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     headers.set('Content-Range', `bytes ${start}-${end}/${size}`);
   }
   headers.set('Content-Length', String(end - start + 1));
+  headers.set('X-PDF-Content-Length', String(end - start + 1));
   const stream = createReadStream(file, { start, end });
   req.signal.addEventListener('abort', () => stream.destroy(), { once: true });
   return new Response(Readable.toWeb(stream) as ReadableStream, { status: range ? 206 : 200, headers });

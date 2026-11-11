@@ -13,7 +13,7 @@
     const deadline = setTimeout(() => {
         roots.forEach(root => failed(root, 'The reader is taking too long to load. Reload or open the original PDF.'));
         clearInterval(watch);
-    }, 60000);
+    }, 300000);
     const watch = setInterval(() => {
         if ([...roots].every(root => ['ready', 'error'].includes(root.dataset.state))) {
             clearTimeout(deadline); clearInterval(watch);

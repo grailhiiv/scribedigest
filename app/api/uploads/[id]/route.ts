@@ -6,13 +6,15 @@ import { signedIn, sameOrigin } from '@/lib/auth';
 import { root, validId, saveBook, saveRemoteBook, allocateBookId } from '@/lib/books';
 import { putPdf, deletePdf } from '@/lib/r2';
 import { replaceBookPdf } from '@/lib/replace-book';
+import { validR2PdfName } from '@/lib/pdf-name';
 export const runtime = 'nodejs';
 const chunkLimit = 8 * 1024 * 1024;
 async function authorized() { return await signedIn() && await sameOrigin(); }
 async function load(id: string) {
   if (!validId(id)) throw new Error('Invalid ID');
   const dir = path.join(root, 'uploads', id);
-  const info = JSON.parse(await readFile(path.join(dir, 'upload.json'), 'utf8')) as { title: string; size: number; driver: 'r2' | 'local'; replaceId?: string };
+  const info = JSON.parse(await readFile(path.join(dir, 'upload.json'), 'utf8')) as { title: string; size: number; driver: 'r2' | 'local'; replaceId?: string; filename?: string };
+  if (info.filename !== undefined && !validR2PdfName(info.filename)) throw new Error('Invalid upload filename');
   return { dir, info, file: path.join(dir, 'document.pdf') };
 }
 async function lock(dir: string) { return open(path.join(dir, 'lock'), 'wx'); }
@@ -54,13 +56,13 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
       } catch { return NextResponse.json({ error: 'This PDF could not be read. Please use a valid, unlocked PDF.' }, { status: 400 }); }
       let book;
       if (info.replaceId) {
-        book = await replaceBookPdf(info.replaceId, file, pages);
+        book = await replaceBookPdf(info.replaceId, file, pages, info.size, info.filename);
         if (!book) return NextResponse.json({ error: 'Flipbook no longer exists.' }, { status: 404 });
       } else {
-        book = { id: await allocateBookId(), title: info.title, pages, createdAt: new Date().toISOString(), pdfStorage: info.driver };
+        book = { id: await allocateBookId(), title: info.title, pages, fileSize: info.size, createdAt: new Date().toISOString(), pdfStorage: info.driver, ...(info.driver === 'r2' && info.filename ? { r2File: info.filename } : {}) };
         if (info.driver === 'r2') {
-          await putPdf(book.id, file);
-          try { await saveRemoteBook(book); } catch (error) { await deletePdf(book.id).catch(() => {}); throw error; }
+          await putPdf(book.id, file, book.r2File);
+          try { await saveRemoteBook(book); } catch (error) { await deletePdf(book.id, book.r2File).catch(() => {}); throw error; }
         } else await saveBook(book, bytes);
       }
       await handle.close();

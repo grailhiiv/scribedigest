@@ -35,7 +35,7 @@ export default function LoginForm({ sitekey }: { sitekey: string }) {
       const form = new FormData(e.currentTarget);
       const body = new URLSearchParams({ username: String(form.get('username') || ''), password: String(form.get('password') || ''), turnstileToken: token });
       const response = await fetch('/api/login', { method: 'POST', body });
-      if (response.ok) { window.location.href = '/admin'; return; }
+      if (response.ok) { window.location.href = '/dashboard'; return; }
       const result = await response.json(); setError(result.error || 'Unable to sign in.');
     } catch { setError('Unable to connect. Please try again.'); }
     setToken('');

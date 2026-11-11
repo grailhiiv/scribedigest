@@ -13530,7 +13530,8 @@ function validateRangeRequestCapabilities({
     contentLength: 0,
     isRangeSupported: false
   };
-  const length = parseInt(responseHeaders.get("Content-Length"), 10);
+  // Next.js may strip Content-Length from streamed route responses.
+  const length = parseInt(responseHeaders.get("Content-Length") || responseHeaders.get("X-PDF-Content-Length"), 10);
   if (!Number.isInteger(length)) {
     return rv;
   }

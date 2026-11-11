@@ -17,6 +17,7 @@
 .sfb .sfb-paper.--left::after{background:linear-gradient(90deg,#0001,transparent 5%,transparent 93%,#0003)}
 .sfb .sfb-turn{position:absolute;z-index:8;top:50%;transform:translateY(-50%);width:44px;height:72px;min-height:44px;padding:0;border:0;border-radius:0;background:transparent;font:28px/1 system-ui,sans-serif;font-weight:200}
 .sfb .sfb-turn:hover{background:#ffffff80}.sfb .sfb-turn:disabled{visibility:hidden}.sfb .sfb-turn-previous{left:4px}.sfb .sfb-turn-next{right:4px}
+.sfb[data-state="ready"] .sfb-turn:disabled:not([data-at-boundary]){visibility:visible;opacity:1}
 .sfb .sfb-thumbnails{position:relative;flex:0 0 270px;align-self:stretch;min-height:0;max-height:760px;padding:28px 30px;overflow:auto;overscroll-behavior:contain;background:#e8e8e8;border-right:1px solid #d2d2d2;scrollbar-width:thin}
 .sfb .sfb-thumbnail-spread{display:flex;justify-content:center;gap:0;margin:0 auto 22px;width:100%;align-items:flex-start}
 .sfb .sfb-thumbnail-spread button{display:flex;flex:0 0 50%;flex-direction:column;align-items:center;justify-content:flex-start;width:50%;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;font-size:12px;gap:4px}
@@ -60,6 +61,10 @@
 .sfb.sfb-tools-visible .sfb-controls,.sfb .sfb-controls:focus-within,.sfb .sfb-controls:hover{opacity:1}
 .sfb input.sfb-page-number{height:27px;width:52px;border-radius:0;padding:2px 4px;font-size:12px}
 .sfb .sfb-status:not(.sfb-visually-hidden),.sfb .sfb-error-fallback{position:absolute;z-index:16;left:50%;top:50%;transform:translate(-50%,-50%);background:#fffffff2;padding:12px 18px;border-radius:3px;box-shadow:0 2px 15px #0002}
+.sfb:is(:not([data-state]),[data-state="loading"]) .sfb-status:not(.sfb-visually-hidden){width:min(320px,calc(100% - 48px));padding:20px 22px;text-align:left;font-size:14px;color:#4b4b4b;border-radius:6px}
+.sfb:is(:not([data-state]),[data-state="loading"]) .sfb-status:not(.sfb-visually-hidden)::after{content:"";display:block;height:10px;margin-top:12px;border-radius:999px;background:linear-gradient(90deg,#526b68 0 30%,transparent 30% 100%) 0 0/200% 100% no-repeat #e0e4e3;animation:sfb-loading 1.4s ease-in-out infinite}
+@keyframes sfb-loading{from{background-position:100% 0}to{background-position:-100% 0}}
+@media(prefers-reduced-motion:reduce){.sfb:is(:not([data-state]),[data-state="loading"]) .sfb-status:not(.sfb-visually-hidden)::after{animation:none;background-position:50% 0}}
 .sfb .sfb-error-fallback{top:calc(50% + 64px)}
 .sfb .sfb-turn{width:44px;height:72px;display:flex;align-items:center;justify-content:center;color:#555}
 .sfb .sfb-turn-previous{left:0}.sfb .sfb-turn-next{right:0}
@@ -149,7 +154,7 @@
 /* Larger, high-contrast touch targets remain visible over any page artwork. */
 @media (max-width:1180px), (hover:none) and (pointer:coarse){
     .sfb .sfb-toolbar{inset:var(--sfb-tools-top,4px) 0 auto;width:auto}
-    .sfb .sfb-turn{width:44px;height:44px;min-height:44px;padding:0;border:1px solid #cbd5e1;border-radius:50%;background:#fffffff2;color:#0f172a;box-shadow:0 2px 8px #0f172a33}
+    .sfb .sfb-turn{width:44px;height:44px;min-height:44px;padding:0;border:1px solid #cbd5e1;border-radius:0;background:#fffffff2;color:#0f172a;box-shadow:0 2px 8px #0f172a33}
     .sfb .sfb-turn:hover,.sfb .sfb-turn:active{background:#fff;color:#0f172a}
     .sfb .sfb-turn svg{width:24px;height:24px;stroke-width:2.5}
     .sfb .sfb-turn-previous{left:4px;right:auto}.sfb .sfb-turn-next{left:auto;right:4px}

@@ -29,6 +29,51 @@ export async function mount(root) {
     let motionFrame = 0, motionStart = null, pointer = null, destroyed = false;
     let navigationPages = [], zoomed = false, zoomScale = 1, activeIndex = null, chromeTimer, pan = null;
     let markedPages = [], markedRow = null, highlightedRow = null;
+    let audioContext, swooshBuffer, soundArmed = false, soundTimer;
+    function unlockSound() {
+        try {
+            const Audio = window.AudioContext || window.webkitAudioContext;
+            if (!Audio) return;
+            audioContext ||= new Audio();
+            if (audioContext.state === 'suspended') void audioContext.resume().catch(() => {});
+        } catch { /* Audio is optional and must never interrupt reading. */ }
+    }
+    function armSound() {
+        soundArmed = true;
+        clearTimeout(soundTimer);
+        soundTimer = setTimeout(() => { soundArmed = false; }, 3000);
+    }
+    function playFlipSound() {
+        try {
+            if (!audioContext || audioContext.state !== 'running') return;
+            if (!swooshBuffer) {
+                swooshBuffer = audioContext.createBuffer(1, Math.floor(audioContext.sampleRate * 0.40), audioContext.sampleRate);
+                const samples = swooshBuffer.getChannelData(0);
+                let texture = 0;
+                for (let i = 0; i < samples.length; i++) {
+                    if (i % 160 === 0) texture = 0.55 + Math.random() * 0.45;
+                    samples[i] = (Math.random() * 2 - 1) * texture;
+                }
+            }
+            const source = audioContext.createBufferSource();
+            const filter = audioContext.createBiquadFilter();
+            const gain = audioContext.createGain();
+            const now = audioContext.currentTime;
+            source.buffer = swooshBuffer;
+            filter.type = 'bandpass'; filter.Q.value = 0.45;
+            filter.frequency.setValueAtTime(1400, now);
+            filter.frequency.exponentialRampToValueAtTime(2600, now + 0.16);
+            filter.frequency.exponentialRampToValueAtTime(1100, now + 0.40);
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(0.035, now + 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.025, now + 0.20);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.40);
+            source.connect(filter); filter.connect(gain); gain.connect(audioContext.destination);
+            source.start(now); source.stop(now + 0.40);
+        } catch { /* Sound availability varies by browser and device. */ }
+    }
+    listen(root, 'pointerdown', unlockSound, { capture: true });
+    listen(root, 'keydown', unlockSound, { capture: true });
     const started = performance.now();
     const metrics = { rasterized: 0, cacheHits: 0, encodedBytes: 0 };
     const publishMetrics = () => { root.dataset.renderStats = JSON.stringify(metrics); };
@@ -264,8 +309,12 @@ export async function mount(root) {
 
     function controls() {
         const locked = navigating || root.dataset.state !== 'ready' || (root.dataset.turn && root.dataset.turn !== 'read');
-        previous.disabled = locked || current === 0;
-        next.disabled = locked || visible().at(-1) === pdf.numPages - 1;
+        const atFirstPage = current === 0;
+        const atLastPage = visible().at(-1) === pdf.numPages - 1;
+        previous.toggleAttribute('data-at-boundary', atFirstPage);
+        next.toggleAttribute('data-at-boundary', atLastPage);
+        previous.disabled = locked || atFirstPage;
+        next.disabled = locked || atLastPage;
         number.disabled = range.disabled = locked;
     }
 
@@ -336,7 +385,7 @@ export async function mount(root) {
             metrics.lastTurnWaitMs = Math.round(performance.now() - requested); publishMetrics();
             if (destroyed) return;
             // Jumping through thumbnails shows the selected spread immediately.
-            if (animate) book.flip(index, 'bottom');
+            if (animate) { armSound(); book.flip(index, 'bottom'); }
             else { book.turnToPage(index); sync(); }
         } catch (error) {
             report(`Page ${index + 1} could not be rendered. Try again or open the original PDF.`);
@@ -374,6 +423,8 @@ export async function mount(root) {
 
     function destroy() {
         destroyed = true;
+        clearTimeout(soundTimer);
+        if (audioContext && audioContext.state !== 'closed') void audioContext.close().catch(() => {});
         clearTimeout(chromeTimer);
         lifecycle.abort(); resize?.disconnect(); thumbnailObserver?.disconnect();
         cancelAnimationFrame(motionFrame);
@@ -387,16 +438,21 @@ export async function mount(root) {
 
     try {
         loading = pdfjs.getDocument({ url: root.dataset.pdf,
-            disableAutoFetch: true, disableStream: true, rangeChunkSize: 262144,
+            disableAutoFetch: true, disableStream: false, rangeChunkSize: 2 * 1024 * 1024,
             cMapUrl: new URL('cmaps/', vendor).href, cMapPacked: true,
             standardFontDataUrl: new URL('standard_fonts/', vendor).href,
             wasmUrl: new URL('wasm/', vendor).href, isEvalSupported: false });
         let loadingTimeout;
         try {
             pdf = await Promise.race([loading.promise, new Promise((resolve, reject) => {
-                loadingTimeout = setTimeout(() => reject(new Error('PDF loading timed out')), 45000);
+                const resetTimeout = () => {
+                    clearTimeout(loadingTimeout);
+                    loadingTimeout = setTimeout(() => reject(new Error('PDF loading stalled')), 120000);
+                };
+                loading.onProgress = resetTimeout;
+                resetTimeout();
             })]);
-        } finally { clearTimeout(loadingTimeout); }
+        } finally { clearTimeout(loadingTimeout); loading.onProgress = null; }
         const first = await pdf.getPage(1);
         const viewport = first.getViewport({ scale: 1 });
         const ratio = viewport.height / viewport.width;
@@ -431,7 +487,14 @@ export async function mount(root) {
             flippingTime: matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 360,
             maxShadowOpacity: 0.32, drawShadow: true,
         });
-        book.on('flip', sync);
+        book.on('flip', event => {
+            if (soundArmed && event.data !== current) {
+                soundArmed = false;
+                clearTimeout(soundTimer);
+                playFlipSound();
+            }
+            sync();
+        });
         book.on('changeOrientation', () => requestAnimationFrame(() => { if (!destroyed) sync(); }));
         book.on('changeState', event => {
             root.dataset.turn = event.data;
@@ -574,8 +637,11 @@ export async function mount(root) {
                 // Move back to the grabbed edge, then let the library settle it.
                 book.getFlipController().fold(held.start);
                 book.getFlipController().stopMove();
-            } else if (!held.moved) book.getFlipController().flip(held.start);
-            else book.getFlipController().stopMove();
+            } else {
+                armSound();
+                if (!held.moved) book.getFlipController().flip(held.start);
+                else book.getFlipController().stopMove();
+            }
         };
         listen(bookElement, 'pointerup', event => release(event));
         listen(bookElement, 'pointercancel', event => release(event, true));
